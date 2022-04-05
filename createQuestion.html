@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+
+<head>
+    <title>QuizGame</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="./css/styleQuestion.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet" />
+    <link href="css/style.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" />
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
+
+    <!-- Bootstrap Icons-->
+
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Merriweather+Sans:400,700" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic"
+        rel="stylesheet" type="text/css" />
+    <!-- SimpleLightbox plugin CSS-->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/SimpleLightbox/2.1.0/simpleLightbox.min.css" rel="stylesheet" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="./css/styleProfile.css" rel="stylesheet" />
+    <link href="./css/stylesProfile.css" rel="stylesheet" />
+    <link href="./css/style.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <style></style>
+</head>
+
+<body style="background: white">
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav"
+        style="box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px; background: #20c997">
+        <a class="navbar-brand" href="./quiz.html"
+            style="font-size: 50px; color: white; font-family: Wire One; margin-left: 150px">Quiz Game</a>
+        <div class="container">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="collapsibleNavbar">
+                <ul class="navbar-nav ms-auto my-2 my-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="./manageQuiz.html"
+                            style="font-size: 20px; color: white">ManageQuiz</a></li>
+
+                    <li id="time001" class="navbar-brand"
+                        style="display: flex; align-items: center; font-size: 20px; color: #59ab6e"></li>
+                    <li class="infoUser navbar-brand"
+                        style="display: flex; align-items: center; font-size: 20px; color: white"></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div style="margin-top: 70px">
+        <div class="row row-cols-1 row-cols-md-3 dom-card border-light"></div>
+    </div>
+    <div class="new-form"></div>
+
+    <div style="padding-bottom: 50px; margin-top: 10px">
+        <button class="btn btn-outline-dark" style="margin-left: 39%" onclick="removeForm()">Remove</button>
+        <button class="btn btn-outline-success" style="margin-left: 30px; padding:0 50px; font-size: 25px;"
+            onclick="addForm()">+</button>
+        <button class="btn btn-outline-dark" id="btnSubmit"
+            style="margin-left: 30px; font-size: 18px; padding: 4px 40px;" onclick="submitForm()">Submit</button>
+    </div>
+
+    <script>
+        (function() {
+            const formQuestion = document.querySelector('.new-form');
+            formQuestion.innerHTML += `<div
+                class="wrapper element form-question"
+                style="
+                    height: 700px;
+                    width: 1000px;
+                    background-color: #e5e5e5;
+                    border-radius: 7px;
+                    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+                    margin-top: 100px;
+                    margin-bottom: 30px;
+                "
+            >
+                <div class="shadow-md">
+                    <div class="">
+                        <form>
+                            <div class="txt_field" style="font-size: 20px">
+                                Question:
+                                <input type="text" class="username" name="question" required />
+                            </div>
+                            <div class="txt_field" style="width: 300px">
+                                <input type="text" name="answerA" class="username" required />
+                                <label>Answer A:</label>
+                            </div>
+                            <div class="txt_field" style="width: 300px">
+                                <input type="text"name="answerB" class="username" required />
+                                <label>Answer B:</label>
+                            </div>
+
+                            <div class="txt_field" style="width: 300px">
+                                <input type="text" name="answerC" class="username" required />
+                                <label>Answer C:</label>
+                            </div>
+                            <div class="txt_field" style="width: 300px">
+                                <input type="text" name="answerD" class="username" required />
+                                <label>Answer D:</label>
+                            </div>
+
+                            <div class="txt_field" style="width: 300px">
+                                <input type="text" name="correctAnswer" class="username" required />
+                                <label>Correct Answer</label>
+                            </div>
+                            <div class="txt_field" style="width: 300px; ">
+                                <input type="text" name="point" class="username" required />
+                                <label>Point</label>
+                            </div>
+                            <input type="file" name="file" />
+                        </form>
+                    </div>
+                </div>
+            </div>`;
+        })();
+
+        function addForm () {
+            const formQuestion = document.querySelector('.new-form');
+            formQuestion.innerHTML += `<div
+                class="wrapper element form-question"
+                style="
+                    height: 700px;
+                    width: 1000px;
+                    background-color: white;
+                    border-radius: 7px;
+                    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+                    margin-top: 100px;
+                    margin-bottom: 30px;
+                "
+            >
+                <div class="shadow-md">
+
+                    <div class="">
+                        <form>
+                            <div class="txt_field" style="font-size: 20px">
+                                Question:
+                                <input type="text" class="username" name="question" required />
+                            </div>
+                            <div class="txt_field" style="width: 300px">
+                                <input type="text" name="answerA" class="username" required />
+                                <label>Answer A:</label>
+                            </div>
+                            <div class="txt_field" style="width: 300px">
+                                <input type="text"name="answerB" class="username" required />
+                                <label>Answer B:</label>
+                            </div>
+
+                            <div class="txt_field" style="width: 300px">
+                                <input type="text" name="answerC" class="username" required />
+                                <label>Answer C:</label>
+                            </div>
+                            <div class="txt_field" style="width: 300px">
+                                <input type="text" name="answerD" class="username" required />
+                                <label>Answer D:</label>
+                            </div>
+
+                            <div class="txt_field" style="width: 300px">
+                                <input type="text" name="correctAnswer" class="username" required />
+                                <label>Correct Answer</label>
+                            </div>
+                            <div class="txt_field" style="width: 300px; ">
+                                <input type="text" name="point" class="username" required />
+                                <label>Point</label>
+                            </div>
+                            <input type="file" name="file" />
+                        </form>
+                    </div>
+                </div>
+            </div>`;
+        }
+
+        function removeForm () {
+            var listFormQuestion = document.querySelector('.new-form');
+            var childFormQuestion = document.querySelectorAll('.new-form .form-question');
+            listFormQuestion.removeChild(listFormQuestion.childNodes[childFormQuestion.length - 1]);
+        }
+
+        async function submitForm () {
+            const idCourse = localStorage.getItem('id-course');
+            let questions = [];
+            document.querySelectorAll('form').forEach((f) => {
+                let obj = {};
+                f.querySelectorAll('input').forEach((element) => {
+                    var name = element.getAttribute('name');
+                    if (name == 'file') {
+                        obj[element.name] = element.files[0] || '';
+                    } else {
+                        obj[element.name] = element.value || '';
+                    }
+                });
+                questions.push(obj);
+            });
+            console.log(questions);
+
+            await Promise.all(
+                questions.map((question) =>
+                    (async function(question) {
+                        var imageUrl = '';
+                        if (question.file !== '') {
+                            const { url } = await axios
+                                .get('https://upload-image-123.azurewebsites.net/')
+                                .then((res) => res.data)
+                                .catch((error) => console.log(error));
+                            console.log(url);
+
+                            // post the image directly to the s3 bucket
+                            await axios(url, {
+                                method: 'put',
+                                headers: {
+                                    'Content-Type': 'multipart/form-data',
+                                },
+                                data: question.file,
+                            });
+
+                            imageUrl = url.split('?')[0];
+                            console.log('0');
+                        }
+
+                        const urlApi = 'http://localhost:8080/admin/addQuestion';
+                        await axios(urlApi, {
+                            method: 'post',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            data: {
+                                question: question.question,
+                                answerA: question.answerA,
+                                answerB: question.answerB,
+                                answerC: question.answerC,
+                                answerD: question.answerD,
+                                correct_Answer: question.correctAnswer,
+                                point: question.point,
+                                image: imageUrl,
+                                coursesQuiz: {
+                                    id: idCourse,
+                                    name: 'string',
+                                },
+                            },
+                        }).catch((error) => console.log(error.response));
+                    })(question)
+                )
+            );
+            localStorage.removeItem('id-course');
+            location.assign('./manageQuiz.html');
+        }
+    </script>
+    <script>
+        (function() {
+            const username = localStorage.getItem('username');
+            if (username == null) {
+                location.assign('./quiz.html');
+            }
+        })();
+    </script>
+</body>
+
+</html>

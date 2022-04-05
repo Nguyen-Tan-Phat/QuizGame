@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="./css/styleQuestion.css" />
+        <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet" />
+
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" />
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
+        <link href="css/style.css" rel="stylesheet" type="text/css" />
+        <!-- Bootstrap Icons-->
+
+        <!-- Google fonts-->
+        <link href="https://fonts.googleapis.com/css?family=Merriweather+Sans:400,700" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic" rel="stylesheet" type="text/css" />
+        <!-- SimpleLightbox plugin CSS-->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/SimpleLightbox/2.1.0/simpleLightbox.min.css" rel="stylesheet" />
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link href="./css/styleProfile.css" rel="stylesheet" />
+        <link href="./css/stylesProfile.css" rel="stylesheet" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <link href="css/style.css" rel="stylesheet" type="text/css" />
+        <title>Question Page</title>
+    </head>
+    <body style="background: white">
+        <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav" style="box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px; background: #20c997">
+            <a class="navbar-brand" href="./quiz.html" style="font-size: 50px; color: white; font-family: Wire One; margin-left: 150px">Quiz Game</a>
+            <div class="container">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="collapsibleNavbar">
+                    <ul class="navbar-nav ms-auto my-2 my-lg-0">
+                        <li class="nav-item">
+                            <a
+                                class="nav-link"
+                                data-toggle="modal"
+                                data-target="#createModal"
+                                style="font-size: 20px; color: white; cursor: pointer; margin-top: 11px; margin-right: 30px"
+                                >Create Quiz</a
+                            >
+                        </li>
+                        <li class="infoUser navbar-brand" style="display: flex; align-items: center; font-size: 20px; color: white"></li>
+                    </ul>
+                    <!-- Button trigger modal -->
+                </div>
+            </div>
+        </nav>
+        <div class="modal fade" id="delete" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content" style="border-radius: 25px; width: 400px; height: 300px">
+                    <form>
+                        <h1 class="modal__title" style="color: #59ab6e; text-align: center">Delete</h1>
+                        <p class="modal__description" style="text-align: center">Do you want to delete?</p>
+
+                        <div class="modal-body" style="margin-left: 20px; margin-top: 50px">
+                            <button onclick="funcRemove()" class="custom-btn btn-13" style="width: 150px">Yes</button>
+                            <button class="custom-btn btn-13" style="width: 150px" data-dismiss="modal" aria-hidden="true">No</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div id="loader"></div>
+        <div style="margin-top: 100px">
+            <div class="row row-cols-1 row-cols-md-3 dom-card border-light"></div>
+        </div>
+        <div class="template-code"></div>
+
+        <div class="small text-center text-muted">Nhóm 1 - Quiz Game </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script>
+            (async function () {
+                // localStorage.removeItem('idQuestionDelete');
+                const template_code = document.querySelector('.template-code');
+                const id = localStorage.getItem('idCourse');
+                // localStorage.removeItem('id');
+
+                const api = `http://localhost:8080/admin/course/${id}`;
+                // const api = `http://localhost:8080/admin/course/${id}`;
+                const response = await axios(api);
+                const data = response.data;
+                console.log(data);
+                const loader = document.getElementById('loader');
+
+                loader.style.display = 'none';
+
+                var index = 0;
+                if (data.length == 0) {
+                    template_code.innerHTML = `<h1 style="padding-top:100px; text-align: center">Don't have question</h1>`;
+                    return;
+                }
+                template_code.innerHTML = `
+                <div style="padding: 20px"></div>
+                <div class="wrapper2" style="box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px ;height: 100px; width: 1000px; background-color: white; border-radius: 7px">
+                    <div class="shadow-md">
+                        <div class="h4 font-weight-bold title" style="font-size: 25px; text-align: center"></div>
+                    </div>
+                </div>
+                <div class="body"></div>
+                
+                <div style="padding: 50px"></div>
+                `;
+                const title = document.querySelector('.title');
+                const body = document.querySelector('.body');
+                title.innerHTML = data[0].coursesQuiz.name;
+                data.map((x) => {
+                    index++;
+                    body.innerHTML += `
+                        <div class="wrapper3" style="box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px ; width: 1000px; background-color: white; border-radius: 7px">
+                            <div class="shadow-md">
+                                <div class="text-center"></div>
+                                <div class="h4 font-weight-bold" style="font-size: 20px">
+                                <a style="cursor: pointer;" onclick="funcRemove(${x.id})">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="25px" style="color:#59ab6e;margin-left:90%" height="25px" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16" >
+                                <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
+                                </svg></a>
+                                <a onclick='funcEdit(${x.id})' data-toggle="modal" data-target="#myModal"  style="cursor: pointer;">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" style="color:#59ab6e;margin-left:5px" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                                    </svg>
+                                </a>
+                                    ${
+                                        x.image == '' || x.image == null
+                                            ? `<div class="h4 font-weight-bold" style="font-size: 20px">${index}. ${x.question}</div>`
+                                            : `<div class="box">
+                                            <img src="${x.image}" width="100px" style="padding-right: 10px" class="image-url"/>
+                                            <span>${index}. ${x.question}</span>
+                                        </div>`
+                                    }
+                                </div>
+                                <hr />
+                                <div class="">
+                                        ${
+                                            x.answerA == ''
+                                                ? ''
+                                                : `<label class="options" style="font-size: 15px"
+                                            >${x.answerA} <input type="radio" name="radio" id="${x.id}" value="${x.answerA}" /> <span class="checkmark"></span>
+                                        </label>
+                                        <br/>`
+                                        }
+                                        ${
+                                            x.answerB == ''
+                                                ? ''
+                                                : `<label class="options" style="font-size: 15px"
+                                            >${x.answerB} <input type="radio" name="radio" id="${x.id}" value="${x.answerB}" /> <span class="checkmark"></span>
+                                        </label>
+                                        <br/>`
+                                        }
+                                        ${
+                                            x.answerC == ''
+                                                ? ''
+                                                : `<label class="options" style="font-size: 15px"
+                                            >${x.answerC} <input type="radio" name="radio" id="${x.id}" value="${x.answerC}" /> <span class="checkmark"></span>
+                                        </label>
+                                        <br/>`
+                                        }
+                                        ${
+                                            x.answerD == ''
+                                                ? ''
+                                                : `<label class="options" style="font-size: 15px"
+                                            >${x.answerD} <input type="radio" name="radio" id="${x.id}" value="${x.answerD}" /> <span class="checkmark"></span>
+                                        </label>
+                                        <br/>`
+                                        }
+                                </div>
+                            </div>
+                    `;
+                });
+                // var minutes = 1;
+                // var seconds = 30;
+
+                // function timer001() {
+                //     seconds -= 1;
+                //     if (seconds == 0) {
+                //         minutes -= 1;
+                //         if (minutes >= 0) {
+                //             seconds = 59;
+                //         }
+                //     }
+                //     if (minutes < 0) {
+                //         minutes++;
+                //         time001.innerHTML = `${minutes} : ${seconds}`;
+                //         window.clearInterval(update);
+                //         console.log('done');
+                //         submit();
+                //     } else {
+                //         time001.innerHTML = `${minutes} : ${seconds}`;
+                //     }
+                // }
+                // update = setInterval(timer001, 1000);
+            })();
+        </script>
+
+        <script>
+            function deleteClick(id) {
+                localStorage.setItem('idQuestionDelete', id);
+            }
+            const infoUser = document.querySelector('.infoUser');
+            if (localStorage.getItem('username') == null) {
+                //         infoUser.innerHTML = `
+                //     <li class="nav-item"><a class="nav-link"  style="color: white" href="./register.html">Register</a></li>
+                //             <li class="nav-item"><a class="nav-link"  style="color: white"   href="./login.html">Login</a></li>
+                // `;
+            } else {
+                infoUser.innerHTML = `
+               <li >
+        <li class="drop"><svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-list-task"  viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M2 2.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5V3a.5.5 0 0 0-.5-.5H2zM3 3H2v1h1V3z"/>
+  <path d="M5 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM5.5 7a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1h-9zm0 4a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1h-9z"/>
+  <path fill-rule="evenodd" d="M1.5 7a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H2a.5.5 0 0 1-.5-.5V7zM2 7h1v1H2V7zm0 3.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5H2zm1 .5H2v1h1v-1z"/>
+</svg>
+      <ul class="dropdown" style="border-radius:10px">
+         <li>   <a href="#"  style="color: #59ab6e;font-weight: bold">${localStorage.getItem('username')}</a>      
+            </li>
+
+        <li><a href="./profile.html" style="color: #59ab6e">Profile</a></li>
+        <li><a href="./quiz.html" onclick="logout()" style="color: #59ab6e">Logout</a></li>
+        
+      </ul>
+    </li>   
+        `;
+            }
+        </script>
+        <script>
+            $('.drop').mouseover(function () {
+                $('.dropdown').show(300);
+            });
+            $('.drop').mouseleave(function () {
+                $('.dropdown').hide(300);
+            });
+        </script>
+        <script type="application/javascript">
+            function logout() {
+                localStorage.clear();
+            }
+
+            async function submit() {
+                const storeAnswer = new Map();
+                var temp = 0;
+                var radios = document.getElementsByTagName('input');
+                for (i = 0; i < radios.length; i++) {
+                    if (radios[i].type == 'radio' && radios[i].checked) {
+                        storeAnswer.set(radios[i].id, radios[i].value);
+                    }
+                }
+
+                var scores = 0;
+                const id = localStorage.getItem('idCourse');
+
+                const api = `http://localhost:8080/admin/course/${id}`;
+                const response = await axios(api);
+                const data = response.data;
+                console.log(storeAnswer);
+                data.map((element) => {
+                    if (storeAnswer.get(`${element.id}`) == element.correct_Answer) {
+                        scores += element.point;
+                    }
+                });
+                console.log(scores);
+
+                const modal = $('.modal');
+                const modalBody = document.querySelector('.modal-body');
+                const closeModal = document.querySelector('.closeModal');
+                const okModal = document.querySelector('.okModal');
+                (function () {
+                    modal.show();
+                    modalBody.innerHTML = `<p>You have ${scores} scores</p>`;
+                })();
+
+                // closeModal.click(function () {
+                //     modal.hide();
+                //     // window.location.replace('./login.html');
+                // });
+
+                // okModal.click(function () {
+                //     modal.hide();
+                //     // window.location.replace('./login.html');
+                // });
+            }
+
+            function closeModal() {
+                const modal = $('.modal');
+                modal.hide();
+                window.location.replace('./quiz.html');
+            }
+
+            function okModal() {
+                const modal = $('.modal');
+                modal.hide();
+                window.location.replace('./quiz.html');
+            }
+
+            function funcRemove(id) {
+                // const id = localStorage.getItem('idQuestionDelete');
+                console.log(id);
+                const apiUrl = `http://localhost:8080/admin/deleteQuestion/${id}`;
+                axios({
+                    method: 'delete',
+                    url: apiUrl,
+                })
+                    .then(() => {
+                        location.assign('./manageQuestion.html');
+                    })
+                    .catch((error) => console.log(error));
+            }
+
+            async function funcEdit(id) {
+                const urlApi = `http://localhost:8080/admin/question/${id}`;
+                try {
+                    const response = await axios.get(urlApi);
+                    const data = response.data;
+                    console.log(response.data);
+                    localStorage.setItem('id-question', data.id);
+                    const modalForm = document.querySelector('#modal-form');
+                    modalForm.question.value = data.question;
+                    modalForm.answerA.value = data.answerA;
+                    modalForm.answerB.value = data.answerB;
+                    modalForm.answerC.value = data.answerC;
+                    modalForm.answerD.value = data.answerD;
+                    modalForm.correctAnswer.value = data.correct_Answer;
+                    modalForm.point.value = data.point;
+                } catch (error) {
+                    console.log(error);
+                }
+            }
+        </script>
+        <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content" style="border-radius: 25px; width: 700px; height: 800px">
+                    <div class="wrapper element" style="height: 800px; width: 600px; background-color: white; border-radius: 25px">
+                        <div class="shadow-md">
+                            <div class="">
+                                <form id="modal-form">
+                                    Question:
+                                    <div class="txt_field" style="font-size: 20px"><input type="text" class="username" name="question" /></div>
+                                    <div class="txt_field" style="width: 300px">
+                                        <input type="text" class="username" name="answerA" />
+                                        <label>Answer A:</label>
+                                    </div>
+                                    <div class="txt_field" style="width: 300px">
+                                        <input type="text" class="username" name="answerB" />
+                                        <label>Answer B:</label>
+                                    </div>
+
+                                    <div class="txt_field" style="width: 300px">
+                                        <input type="text" class="username" name="answerC" />
+                                        <label>Answer C:</label>
+                                    </div>
+                                    <div class="txt_field" style="width: 300px">
+                                        <input type="text" class="username" name="answerD" />
+                                        <label>Answer D:</label>
+                                    </div>
+
+                                    <div class="txt_field" style="width: 300px">
+                                        <input type="text" class="username" name="correctAnswer" />
+                                        <label>Correct Anwser</label>
+                                    </div>
+                                    <div class="txt_field" style="width: 300px">
+                                        <input type="text" class="username" name="point" />
+                                        <label>Point</label>
+                                    </div>
+                                    <br />
+                                    <button class="custom-btn btn-13" style="margin-top: 10px" type="submit">Submit</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="createModal" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content" style="border-radius: 25px; width: 700px; height: 800px">
+                    <div class="wrapper element" style="height: 800px; width: 600px; background-color: white; border-radius: 25px">
+                        <div class="shadow-md">
+                            <div class="">
+                                <form id="create-form">
+                                    Question:
+                                    <div class="txt_field" style="font-size: 20px">
+                                        <input type="text" class="username" name="create_question" />
+                                    </div>
+                                    <div class="txt_field" style="width: 300px">
+                                        <input type="text" class="username" name="create_answerA" />
+                                        <label>Answer A:</label>
+                                    </div>
+                                    <div class="txt_field" style="width: 300px">
+                                        <input type="text" class="username" name="create_answerB" />
+                                        <label>Answer B:</label>
+                                    </div>
+
+                                    <div class="txt_field" style="width: 300px">
+                                        <input type="text" class="username" name="create_answerC" />
+                                        <label>Answer C:</label>
+                                    </div>
+                                    <div class="txt_field" style="width: 300px">
+                                        <input type="text" class="username" name="create_answerD" />
+                                        <label>Answer D:</label>
+                                    </div>
+
+                                    <div class="txt_field" style="width: 300px">
+                                        <input type="text" class="username" name="create_correctAnswer" />
+                                        <label>Correct Anwser</label>
+                                    </div>
+                                    <div class="txt_field" style="width: 300px">
+                                        <input type="text" class="username" name="create_point" />
+                                        <label>Point</label>
+                                    </div>
+                                    <br />
+                                    <button class="custom-btn btn-13" style="margin-top: 20px" type="submit">Submit</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            
+            const modalForm = document.querySelector('#modal-form');
+            modalForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const question = modalForm.question.value;
+                const answerA = modalForm.answerA.value;
+                const answerB = modalForm.answerB.value;
+                const answerC = modalForm.answerC.value;
+                const answerD = modalForm.answerD.value;
+                const correctAnswer = modalForm.correctAnswer.value;
+                const point = modalForm.point.value;
+                // const urlImage = document.querySelector('.modal-img').src;
+                
+                
+                const idQuestion = localStorage.getItem('id-question');
+                const idCourse = localStorage.getItem('idCourse');
+                
+                const urlApi = `http://localhost:8080/admin/updateQuestion/${idQuestion}`;
+                await axios(urlApi, {
+                    method: 'put',
+                    data: {
+                        id: idQuestion,
+                        question,
+                        answerA,
+                        answerB,
+                        answerC,
+                        answerD,
+                        correct_Answer: correctAnswer,
+                        point,
+                        coursesQuiz: {
+                            id: idCourse,
+                            name: 'string',
+                        },
+                    },
+                }).catch((error) => console.log(error));
+
+                location.assign('./manageQuestion.html');
+            });
+        </script>
+
+        <script>
+            const createUrlImage = document.querySelector('.create_image');
+            createUrlImage.onchange = (e) => {
+                const [file] = createUrlImage.files;
+                if (file) {
+                    document.querySelector('.create-modal-img').setAttribute('width', '100px');
+                    document.querySelector('.create-modal-img').src = URL.createObjectURL(file);
+                }
+            };
+            const createModalForm = document.querySelector('#create-form');
+            createModalForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                console.log('ok');
+                const question = createModalForm.create_question.value;
+                const answerA = createModalForm.create_answerA.value;
+                const answerB = createModalForm.create_answerB.value;
+                const answerC = createModalForm.create_answerC.value;
+                const answerD = createModalForm.create_answerD.value;
+                const correctAnswer = createModalForm.create_correctAnswer.value;
+                const point = createModalForm.create_point.value;
+                // const urlImage = document.querySelector('.modal-img').src;
+                const imageFile = document.querySelector('.create_image').files[0];
+                const idCourse = localStorage.getItem('idCourse');
+
+                var imageUrl = '';
+                if (imageFile != null) {
+                    const { url } = await axios
+                        .get('https://upload-image-123.azurewebsites.net/')
+                        .then((res) => res.data)
+                        .catch((error) => console.log(error));
+                    console.log(url);
+
+                    // post the image directly to the s3 bucket
+                    await axios(url, {
+                        method: 'put',
+                        headers: {
+                            'Content-Type': 'multipart/form-data',
+                        },
+                        data: imageFile,
+                    });
+
+                    imageUrl = url.split('?')[0];
+                }
+
+                const urlApi = `http://localhost:8080/admin/addQuestion`;
+                await axios(urlApi, {
+                    method: 'post',
+                    data: {
+                        question,
+                        answerA,
+                        answerB,
+                        answerC,
+                        answerD,
+                        correct_Answer: correctAnswer,
+                        image: imageUrl,
+                        point,
+                        coursesQuiz: {
+                            id: idCourse,
+                            name: 'string',
+                        },
+                    },
+                }).catch((error) => console.log(error));
+
+                location.assign('./manageQuestion.html');
+            });
+        </script>
+        <script>
+            (function () {
+                const username = localStorage.getItem('username');
+                const role = localStorage.getItem('role');
+                if (username == null) {
+                    location.assign('./quiz.html');
+                }
+                if (role != 'Admin') {
+                    location.assign('./quiz.html');
+                }
+            })();
+        </script>
+        <div class="modal fade" id="loginModal" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content" style="border-radius: 25px; width: 600px; height: 450px">
+                    <form>
+                        <h1 class="modal__title" style="color: #59ab6e; text-align: center">Login</h1>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
