@@ -73,7 +73,7 @@
         </div>
         <div class="template-code"></div>
 
-        <div class="small text-center text-muted">Nhóm 1 - Quiz Game </div>
+        <div class="small text-center text-muted">Nhóm 1 - Quiz Game</div>
 
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
         <script>
@@ -427,7 +427,6 @@
         </div>
 
         <script>
-            
             const modalForm = document.querySelector('#modal-form');
             modalForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
@@ -439,11 +438,10 @@
                 const correctAnswer = modalForm.correctAnswer.value;
                 const point = modalForm.point.value;
                 // const urlImage = document.querySelector('.modal-img').src;
-                
-                
+
                 const idQuestion = localStorage.getItem('id-question');
                 const idCourse = localStorage.getItem('idCourse');
-                
+
                 const urlApi = `http://localhost:8080/admin/updateQuestion/${idQuestion}`;
                 await axios(urlApi, {
                     method: 'put',
@@ -494,7 +492,7 @@
                 var imageUrl = '';
                 if (imageFile != null) {
                     const { url } = await axios
-                        .get('https://upload-image-123.azurewebsites.net/')
+                        .get('https://hidden-headland-73625.herokuapp.com/')
                         .then((res) => res.data)
                         .catch((error) => console.log(error));
                     console.log(url);
