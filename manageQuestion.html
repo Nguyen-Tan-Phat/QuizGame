@@ -83,7 +83,7 @@
                 const id = localStorage.getItem('idCourse');
                 // localStorage.removeItem('id');
 
-                const api = `http://localhost:8080/admin/course/${id}`;
+                const api = `https://quizgame.azurewebsites.net/admin/course/${id}`;
                 // const api = `http://localhost:8080/admin/course/${id}`;
                 const response = await axios(api);
                 const data = response.data;
@@ -256,7 +256,7 @@
                 var scores = 0;
                 const id = localStorage.getItem('idCourse');
 
-                const api = `http://localhost:8080/admin/course/${id}`;
+                const api = `https://quizgame.azurewebsites.net/admin/course/${id}`;
                 const response = await axios(api);
                 const data = response.data;
                 console.log(storeAnswer);
@@ -302,7 +302,7 @@
             function funcRemove(id) {
                 // const id = localStorage.getItem('idQuestionDelete');
                 console.log(id);
-                const apiUrl = `http://localhost:8080/admin/deleteQuestion/${id}`;
+                const apiUrl = `https://quizgame.azurewebsites.net/admin/deleteQuestion/${id}`;
                 axios({
                     method: 'delete',
                     url: apiUrl,
@@ -314,7 +314,7 @@
             }
 
             async function funcEdit(id) {
-                const urlApi = `http://localhost:8080/admin/question/${id}`;
+                const urlApi = `https://quizgame.azurewebsites.net/admin/question/${id}`;
                 try {
                     const response = await axios.get(urlApi);
                     const data = response.data;
@@ -442,7 +442,7 @@
                 const idQuestion = localStorage.getItem('id-question');
                 const idCourse = localStorage.getItem('idCourse');
 
-                const urlApi = `http://localhost:8080/admin/updateQuestion/${idQuestion}`;
+                const urlApi = `https://quizgame.azurewebsites.net/admin/updateQuestion/${idQuestion}`;
                 await axios(urlApi, {
                     method: 'put',
                     data: {
@@ -509,7 +509,7 @@
                     imageUrl = url.split('?')[0];
                 }
 
-                const urlApi = `http://localhost:8080/admin/addQuestion`;
+                const urlApi = `https://quizgame.azurewebsites.net/admin/addQuestion`;
                 await axios(urlApi, {
                     method: 'post',
                     data: {

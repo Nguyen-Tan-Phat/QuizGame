@@ -12,10 +12,8 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     </head>
-    <body style="background-image:url(./assets/Rectangle\ 6.png); background-repeat: repeat; background-size: cover;" >
-        <div>
-            
-        </div>
+    <body style="background-image: url(./assets/Rectangle\ 6.png); background-repeat: repeat; background-size: cover">
+        <div></div>
         <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
             <div class="container">
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
@@ -24,7 +22,7 @@
             </div>
         </nav>
         <div class="center" style="box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px; border-radius: 10px">
-            <h1 style="padding-top: 10px; color: #59ab6e; font-weight:700;">Login</h1>
+            <h1 style="padding-top: 10px; color: #59ab6e; font-weight: 700">Login</h1>
             <form>
                 <div class="txt_field">
                     <input type="text" class="username" required />
@@ -51,8 +49,7 @@
             form.addEventListener('submit', async (e) => {
                 e.preventDefault();
 
-                const api = 'http://localhost:8080/login';
-                // const api = 'http://localhost:8080/login';
+                const api = 'https://quizgame.azurewebsites.net/login';
                 const username = document.querySelector('.username').value;
                 const password = document.querySelector('.password').value;
 

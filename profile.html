@@ -253,7 +253,7 @@
 
             const user = localStorage.getItem('username');
 
-            const api = `http://localhost:8080/findByUserName/${user}`;
+            const api = `https://quizgame.azurewebsites.net/findByUserName/${user}`;
 
             fetch(api)
                 .then((res) => res.json())
@@ -290,7 +290,7 @@
 
             const modal = $('#myModalpass');
 
-            const apiGet = `http://localhost:8080/findByUserName/${username}`;
+            const apiGet = `https://quizgame.azurewebsites.net/findByUserName/${username}`;
             fetch(apiGet)
                 .then((res) => res.json())
                 .then((data) => {
@@ -307,7 +307,7 @@
                         return;
                     }
                     password = newpassword;
-                    const apiPut = `http://localhost:8080/updateUser/${username}`;
+                    const apiPut = `https://quizgame.azurewebsites.net/updateUser/${username}`;
                     fetch(apiPut, {
                         method: 'PUT',
                         headers: {
@@ -364,7 +364,7 @@
 
             const modal = $('#myModal');
 
-            const apiGet = `http://localhost:8080/findByUserName/${username}`;
+            const apiGet = `https://quizgame.azurewebsites.net/findByUserName/${username}`;
             fetch(apiGet)
                 .then((res) => res.json())
                 .then((data) => {
@@ -378,7 +378,7 @@
                     var password = data.password;
                     const role = data.role;
                     const username = data.username;
-                    const apiPut = `http://localhost:8080/updateUser/${username}`;
+                    const apiPut = `https://quizgame.azurewebsites.net/updateUser/${username}`;
                     fetch(apiPut, {
                         method: 'PUT',
                         headers: {
@@ -421,7 +421,7 @@
             const image = document.querySelector('.store-image');
             const username = localStorage.getItem('username');
 
-            const apiGet = `http://localhost:8080/findByUserName/${username}`;
+            const apiGet = `https://quizgame.azurewebsites.net/findByUserName/${username}`;
             fetch(apiGet)
                 .then((res) => res.json())
                 .then((data) => {
@@ -436,7 +436,7 @@
         function historyFunc () {
             const idUser = localStorage.getItem('idUser')
             const tableScore = document.querySelector('.score')
-            const api = `http://localhost:8080/score/${idUser}`
+            const api = `https://quizgame.azurewebsites.net/score/${idUser}`
             var temp = 0;
             fetch(api)
                 .then(res => res.json())

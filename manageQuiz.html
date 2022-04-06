@@ -134,8 +134,8 @@
                 // localStorage.removeItem('idDeleteCourse');
                 const loader = document.getElementById('loader');
                 const card_desk = document.querySelector('.dom-card');
-                const api = 'http://localhost:8080/admin/course';
-                // const api = 'http://localhost:8080/admin/course';
+                const api = 'https://quizgame.azurewebsites.net/admin/course';
+                // const api = 'https://quizgame.azurewebsites.net/admin/course';
                 try {
                     const response = await axios(api);
                     console.log(response.data);
@@ -239,7 +239,7 @@
                 const card_desk = document.querySelector('.dom-card');
                 card_desk.innerHTML = '';
                 try {
-                    const apiUrl = `http://localhost:8080/admin/courses/${txtSearch}`;
+                    const apiUrl = `https://quizgame.azurewebsites.net/admin/courses/${txtSearch}`;
                     const response = await axios.get(apiUrl);
                     const data = response.data;
                     console.log(data);
@@ -275,7 +275,7 @@
 
             function funcRemove(id) {
                 // const id = localStorage.getItem('idDeleteCourse');
-                const apiUrl = `http://localhost:8080/admin/deleteCourse/${id}`;
+                const apiUrl = `https://quizgame.azurewebsites.net/admin/deleteCourse/${id}`;
                 console.log(apiUrl);
                 axios({
                     method: 'delete',
@@ -288,7 +288,7 @@
             }
 
             function funcEdit(id) {
-                const apiUrl = `http://localhost:8080/admin/getCourseById/${id}`;
+                const apiUrl = `https://quizgame.azurewebsites.net/admin/getCourseById/${id}`;
                 const nameEditCourse = document.querySelector('.nameEditCourse');
                 axios(apiUrl)
                     .then((res) => {
@@ -417,7 +417,7 @@
                 e.preventDefault();
                 const nameCourse = form.nameCourse.value;
                 const imageFile = document.querySelector('.image').files[0];
-                const urlApi = 'https://quiz-project.azurewebsites.net/admin/addCourse';
+                const urlApi = 'https://quizgame.azurewebsites.net/admin/addCourse';
                 var imageUrl = '';
                 if (imageFile != null) {
                     const { url } = await axios
@@ -473,7 +473,7 @@
                 var oldImageUrl = document.querySelector('.image-edit').src;
                 const imageFile = document.querySelector('.file-edit').files[0];
                 const idCourse = localStorage.getItem('id-edit');
-                const urlApi = `https://quiz-project.azurewebsites.net/admin/updateCourse/${idCourse}`;
+                const urlApi = `https://quizgame.azurewebsites.net/admin/updateCourse/${idCourse}`;
                 var imageUrl = '';
                 if (imageFile != null) {
                     const { url } = await axios
