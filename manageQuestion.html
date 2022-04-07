@@ -466,18 +466,18 @@
         </script>
 
         <script>
-            const createUrlImage = document.querySelector('.create_image');
-            createUrlImage.onchange = (e) => {
-                const [file] = createUrlImage.files;
-                if (file) {
-                    document.querySelector('.create-modal-img').setAttribute('width', '100px');
-                    document.querySelector('.create-modal-img').src = URL.createObjectURL(file);
-                }
-            };
+            // const createUrlImage = document.querySelector('.create_image');
+            // createUrlImage.onchange = (e) => {
+            //     const [file] = createUrlImage.files;
+            //     if (file) {
+            //         document.querySelector('.create-modal-img').setAttribute('width', '100px');
+            //         document.querySelector('.create-modal-img').src = URL.createObjectURL(file);
+            //     }
+            // };
             const createModalForm = document.querySelector('#create-form');
             createModalForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
-                console.log('ok');
+                console.log(e);
                 const question = createModalForm.create_question.value;
                 const answerA = createModalForm.create_answerA.value;
                 const answerB = createModalForm.create_answerB.value;
@@ -486,43 +486,46 @@
                 const correctAnswer = createModalForm.create_correctAnswer.value;
                 const point = createModalForm.create_point.value;
                 // const urlImage = document.querySelector('.modal-img').src;
-                const imageFile = document.querySelector('.create_image').files[0];
+                // const imageFile = document.querySelector('.create_image').files[0];
                 const idCourse = localStorage.getItem('idCourse');
 
                 var imageUrl = '';
-                if (imageFile != null) {
-                    // const { url } = await axios
-                    //     .get('https://hidden-headland-73625.herokuapp.com/')
-                    //     .then((res) => res.data)
-                    //     .catch((error) => console.log(error));
-                    // console.log(url);
+                // if (imageFile != null) {
+                //     // const { url } = await axios
+                //     //     .get('https://hidden-headland-73625.herokuapp.com/')
+                //     //     .then((res) => res.data)
+                //     //     .catch((error) => console.log(error));
+                //     // console.log(url);
 
-                    // // post the image directly to the s3 bucket
-                    // await axios(url, {
-                    //     method: 'put',
-                    //     headers: {
-                    //         'Content-Type': 'multipart/form-data',
-                    //     },
-                    //     data: imageFile,
-                    // });
+                //     // // post the image directly to the s3 bucket
+                //     // await axios(url, {
+                //     //     method: 'put',
+                //     //     headers: {
+                //     //         'Content-Type': 'multipart/form-data',
+                //     //     },
+                //     //     data: imageFile,
+                //     // });
 
-                    // imageUrl = url.split('?')[0];
+                //     // imageUrl = url.split('?')[0];
 
-                    const formData = new FormData();
-                    formData.append('file', imageFile);
+                //     const formData = new FormData();
+                //     formData.append('file', imageFile);
 
-                    const image = await axios.post('https://pegoda.azurewebsites.net/api/v1.0/uploads', formData, {
-                        headers: {
-                            'Content-Type': `multipart/form-data`,
-                        },
-                    });
+                //     const image = await axios.post('https://pegoda.azurewebsites.net/api/v1.0/uploads', formData, {
+                //         headers: {
+                //             'Content-Type': `multipart/form-data`,
+                //         },
+                //     });
 
-                    imageUrl = image.data.urlImage;
-                }
+                //     imageUrl = image.data.urlImage;
+                // }
 
                 const urlApi = `https://quizgame.azurewebsites.net/admin/addQuestion`;
                 await axios(urlApi, {
                     method: 'post',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
                     data: {
                         question,
                         answerA,
