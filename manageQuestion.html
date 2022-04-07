@@ -491,22 +491,33 @@
 
                 var imageUrl = '';
                 if (imageFile != null) {
-                    const { url } = await axios
-                        .get('https://hidden-headland-73625.herokuapp.com/')
-                        .then((res) => res.data)
-                        .catch((error) => console.log(error));
-                    console.log(url);
+                    // const { url } = await axios
+                    //     .get('https://hidden-headland-73625.herokuapp.com/')
+                    //     .then((res) => res.data)
+                    //     .catch((error) => console.log(error));
+                    // console.log(url);
 
-                    // post the image directly to the s3 bucket
-                    await axios(url, {
-                        method: 'put',
+                    // // post the image directly to the s3 bucket
+                    // await axios(url, {
+                    //     method: 'put',
+                    //     headers: {
+                    //         'Content-Type': 'multipart/form-data',
+                    //     },
+                    //     data: imageFile,
+                    // });
+
+                    // imageUrl = url.split('?')[0];
+
+                    const formData = new FormData();
+                    formData.append('file', imageFile);
+
+                    const image = await axios.post('https://pegoda.azurewebsites.net/api/v1.0/uploads', formData, {
                         headers: {
-                            'Content-Type': 'multipart/form-data',
+                            'Content-Type': `multipart/form-data`,
                         },
-                        data: imageFile,
                     });
 
-                    imageUrl = url.split('?')[0];
+                    imageUrl = image.data.urlImage;
                 }
 
                 const urlApi = `https://quizgame.azurewebsites.net/admin/addQuestion`;
